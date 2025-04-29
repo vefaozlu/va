@@ -1,12 +1,12 @@
 package com.example.va.core.service.refreshtoken._common.dto;
 
 import lombok.Data;
-import lombok.Setter;
+import lombok.Getter;
 
 import java.util.Date;
 
 @Data
-@Setter
+@Getter
 public class RefreshTokenDto {
     private Integer id;
     private final String token;

@@ -22,7 +22,7 @@ public class JpaUser implements UserDSGateway {
     }
 
     @Override
-    public boolean createUser(CreateUserDsRequest user) {
+    public boolean create(CreateUserDsRequest user) {
         UserDataMapper userDataMapper = new UserDataMapper(
                 user.getFullName(),
                 user.getEmail(),
@@ -36,7 +36,7 @@ public class JpaUser implements UserDSGateway {
     }
 
     @Override
-    public UserDTO getUserById(Integer id) {
+    public UserDTO getById(Integer id) {
         Optional<UserDataMapper> user = jpaUserRepository.findById(id);
 
         if (user.isPresent()) {
@@ -46,8 +46,7 @@ public class JpaUser implements UserDSGateway {
                     user.get().getEmail(),
                     user.get().getPhone(),
                     user.get().getPassword(),
-                    user.get().getRole(),
-                    null
+                    user.get().getRole()
             );
         }
 
@@ -70,7 +69,7 @@ public class JpaUser implements UserDSGateway {
     }
 
     @Override
-    public UserDTO getUserByEmail(String email) {
+    public UserDTO getByEmail(String email) {
         UserDataMapper user = jpaUserRepository.findByEmail(email);
 
         return new UserDTO(
@@ -79,13 +78,12 @@ public class JpaUser implements UserDSGateway {
                 user.getEmail(),
                 user.getPhone(),
                 user.getPassword(),
-                user.getRole(),
-                null
+                user.getRole()
         );
     }
 
     @Override
-    public List<UserDTO> getAllUsers() {
+    public List<UserDTO> getUsers() {
         String search = "test";
 
         StringBuilder jpql = new StringBuilder("SELECT e FROM UserDataMapper e WHERE 1=1");
@@ -105,13 +103,13 @@ public class JpaUser implements UserDSGateway {
         return query
                 .getResultList()
                 .stream()
-                .map(user -> new UserDTO(user.getId(),
+                .map(user -> new UserDTO(
+                        user.getId(),
                         user.getFullName(),
                         user.getEmail(),
                         user.getPhone(),
                         user.getPassword(),
-                        user.getRole(),
-                        user.getDeletedAt()))
+                        user.getRole()))
                 .toList();
     }
 }

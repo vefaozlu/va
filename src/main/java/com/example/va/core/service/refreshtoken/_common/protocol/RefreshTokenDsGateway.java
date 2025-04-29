@@ -5,5 +5,5 @@ import com.example.va.core.service.refreshtoken._common.dto.RefreshTokenDto;
 public interface RefreshTokenDsGateway {
     RefreshTokenDto create(RefreshTokenDto refreshTokenDto);
 
-    RefreshTokenDto getRefreshTokenByToken(String token);
+    RefreshTokenDto getByToken(String token);
 }

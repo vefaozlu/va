@@ -1,8 +1,7 @@
 package com.example.va.presenter.auth;
 
-import com.example.va.RoofCalculation;
+import com.example.va.Command;
 import com.example.va.core.service.auth.renewaccesstoken.RenewAccessTokenResponse;
-import com.example.va.infrastructure.Mediator;
 import com.example.va.core.service.auth.login.LoginRequest;
 import com.example.va.core.service.auth.login.LoginResponse;
 import com.example.va.core.service.auth.renewaccesstoken.RenewAccessTokenRequest;
@@ -11,8 +10,6 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-import net.objecthunter.exp4j.Expression;
-import net.objecthunter.exp4j.ExpressionBuilder;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,22 +18,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 @RestController
 public class AuthController {
 
-    private final Mediator mediator;
+    private final Command<RenewAccessTokenRequest, RenewAccessTokenResponse> renewAccessTokenService;
+    private final Command<LoginRequest, LoginResponse> loginService;
 
-    public AuthController(Mediator mediator) {
-        this.mediator = mediator;
+    public AuthController(Command<RenewAccessTokenRequest, RenewAccessTokenResponse> renewAccessTokenService,
+                          Command<LoginRequest, LoginResponse> loginService) {
+        this.renewAccessTokenService = renewAccessTokenService;
+        this.loginService = loginService;
     }
 
     @PostMapping("/auth/login")
     public ResponseEntity<LoginResponse> login(@RequestBody @Valid LoginRequest user, HttpServletResponse response) {
-        ResponseEntity<LoginResponse> dataResponse = mediator.executeCommand(user);
+        ResponseEntity<LoginResponse> dataResponse = loginService.execute(user);
 
         ResponseCookie cookie = ResponseCookie.from("refresh_token", dataResponse.getBody().refreshToken().refreshToken())
                 .httpOnly(true)
@@ -63,7 +60,7 @@ public class AuthController {
                 token = token.substring(9, token.length() - 1);
             }
 
-            return mediator.executeCommand(new RenewAccessTokenRequest(token));
+            return renewAccessTokenService.execute(new RenewAccessTokenRequest(token));
         }
 
         //  Change this message!

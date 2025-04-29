@@ -1,6 +1,6 @@
 package com.example.va.core.service.user.getuserbyemail;
 
-import com.example.va.infrastructure.Command;
+import com.example.va.Command;
 import com.example.va.core.service.user._common.dto.UserDTO;
 import com.example.va.core.service.user._common.protocol.UserDSGateway;
 import com.example.va.presenter._common.exceptions.NotFoundException;
@@ -21,7 +21,8 @@ public class GetUserByEmailService implements Command<GetUserByEmailRequest, Use
         boolean existsByEmail = userDsGateway.existsByEmail(request.getEmail());
 
         if (existsByEmail) {
-            return ResponseEntity.ok(userDsGateway.getUserByEmail(request.getEmail()));
+            UserDTO user = userDsGateway.getByEmail(request.getEmail());
+            return ResponseEntity.ok(user);
         }
 
         throw new NotFoundException("User not found");

@@ -1,6 +1,6 @@
 package com.example.va.core.service.user.createuser;
 
-import com.example.va.infrastructure.Command;
+import com.example.va.Command;
 import com.example.va.core.domain.user.User;
 import com.example.va.core.domain.user.UserFactory;
 import com.example.va.core.service.user._common.protocol.UserDSGateway;
@@ -38,7 +38,7 @@ public class CreateUserService implements Command<CreateUserRequest, CreateUserR
             throw new DuplicateValueException("Email or Phone is already in use");
         }
 
-        boolean data = userDsGateway.createUser(new CreateUserDsRequest(
+        boolean data = userDsGateway.create(new CreateUserDsRequest(
             user.getFullName(), 
             user.getEmail(), 
             user.getPhone(), 

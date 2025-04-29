@@ -2,17 +2,17 @@ package com.example.va.data.user;
 
 import com.example.va.core.domain.user.Role;
 import jakarta.persistence.*;
+import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.*;
 
 import java.util.Date;
 
 @Entity
-@SQLDelete(sql = "UPDATE UserDataMapper SET deleted_at = NOW() WHERE id = ?")
 @Table(name = "users")
+@SQLDelete(sql = "UPDATE users SET deleted = true WHERE id=?")
+@SQLRestriction("deleted <> true")
 @Data
 @NoArgsConstructor
 public class UserDataMapper {
@@ -45,8 +45,7 @@ public class UserDataMapper {
     @UpdateTimestamp
     private Date updatedAt;
 
-    @Column(name = "deleted_at")
-    private Date deletedAt;
+    private boolean deleted = Boolean.FALSE;
 
     UserDataMapper(String fullName, String email, String phone, String password, Role role) {
         this.fullName = fullName;

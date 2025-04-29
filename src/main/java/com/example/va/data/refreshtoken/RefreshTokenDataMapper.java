@@ -5,13 +5,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
 
 @Entity
-@SQLDelete(sql = "UPDATE RefreshTokenDataMapper SET deleted_at = NOW() WHERE id = ?")
 @Table(name = "refresh_tokens")
+@SQLDelete(sql = "UPDATE refresh_tokens SET deleted = true WHERE id=?")
+@SQLRestriction("deleted <> true")
 @Data
 @NoArgsConstructor
 public class RefreshTokenDataMapper {
@@ -33,12 +35,11 @@ public class RefreshTokenDataMapper {
     @CreationTimestamp
     private Date createdAt;
 
-    @Column
+    @Column(name = "updated_at")
     @UpdateTimestamp
     private Date updatedAt;
 
-    @Column(name = "deleted_at")
-    private Date deletedAt;
+    private boolean deleted = Boolean.FALSE;
 
     RefreshTokenDataMapper(String token, Integer userId, Date expiresAt) {
         this.token = token;

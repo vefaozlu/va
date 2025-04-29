@@ -1,6 +1,6 @@
 package com.example.va.core.service.refreshtoken.createrefreshtoken;
 
-import com.example.va.infrastructure.Command;
+import com.example.va.Command;
 import com.example.va.core.domain.refreshtoken.RefreshToken;
 import com.example.va.core.domain.refreshtoken.RefreshTokenFactory;
 import com.example.va.core.service.refreshtoken._common.dto.RefreshTokenDto;

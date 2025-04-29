@@ -1,6 +1,6 @@
 package com.example.va.core.service.user.getuserbyid;
 
-import com.example.va.infrastructure.Command;
+import com.example.va.Command;
 import com.example.va.core.service.user._common.dto.UserDTO;
 import com.example.va.core.service.user._common.protocol.UserDSGateway;
 import com.example.va.presenter._common.exceptions.NotFoundException;
@@ -21,7 +21,7 @@ public class GetUserByIdService implements Command<GetUserByIdRequest, UserDTO> 
         boolean existsById = userDsGateway.existsById(request.getUserId());
 
         if (existsById) {
-            return ResponseEntity.ok(userDsGateway.getUserById(request.getUserId()));
+            return ResponseEntity.ok(userDsGateway.getById(request.getUserId()));
         }
 
         throw new NotFoundException("User not found");

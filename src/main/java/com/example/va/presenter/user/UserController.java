@@ -1,6 +1,6 @@
 package com.example.va.presenter.user;
 
-import com.example.va.infrastructure.Mediator;
+import com.example.va.Command;
 import com.example.va.core.service.user.createuser.CreateUserRequest;
 import com.example.va.core.service.user.createuser.CreateUserResponse;
 import jakarta.validation.Valid;
@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class UserController {
 
-    private final Mediator mediator;
+    private final Command<CreateUserRequest, CreateUserResponse> createUserService;
 
-    public UserController(Mediator mediator) {
-        this.mediator = mediator;
+    public UserController(Command<CreateUserRequest, CreateUserResponse> createUserService) {
+        this.createUserService = createUserService;
     }
 
     @PostMapping("/user/create")
     public ResponseEntity<CreateUserResponse> createUser(@RequestBody @Valid CreateUserRequest request) {
-        return mediator.executeCommand(request);
+        return createUserService.execute(request);
     }
 
     @GetMapping("/user/get-all")

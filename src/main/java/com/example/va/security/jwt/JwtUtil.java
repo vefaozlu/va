@@ -12,7 +12,7 @@ public class JwtUtil {
     public static String generateToken(User user) {
         return Jwts.builder()
                 .subject(user.getUsername())
-                .expiration(new Date(System.currentTimeMillis() + 300_000)) //  5 min
+                .expiration(new Date(System.currentTimeMillis() + 300_000_000)) //  5 min
                 .signWith(getSigningKey())
                 .compact();
     }
@@ -20,7 +20,7 @@ public class JwtUtil {
     public static String generateToken(String username) {
         return Jwts.builder()
                 .subject(username)
-                .expiration(new Date(System.currentTimeMillis() + 300_000)) //  5 min
+                .expiration(new Date(System.currentTimeMillis() + 300_000_000)) //  5 min
                 .signWith(getSigningKey())
                 .compact();
     }

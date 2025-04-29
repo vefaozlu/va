@@ -28,7 +28,7 @@ public class JpaRefreshToken implements RefreshTokenDsGateway {
     }
 
     @Override
-    public RefreshTokenDto getRefreshTokenByToken(String token) {
+    public RefreshTokenDto getByToken(String token) {
         RefreshTokenDataMapper data = repository.findByToken(token);
         RefreshTokenDto refreshTokenDto = new RefreshTokenDto(data.getToken(), data.getUserId(), data.getExpiresAt());
         refreshTokenDto.setId(data.getId());

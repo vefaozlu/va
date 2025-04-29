@@ -12,11 +12,11 @@ public interface UserDSGateway {
 
     boolean existsById(Integer id);
 
-    boolean createUser(CreateUserDsRequest user);
+    boolean create(CreateUserDsRequest user);
 
-    UserDTO getUserByEmail(String email);
+    UserDTO getByEmail(String email);
 
-    List<UserDTO> getAllUsers();
+    List<UserDTO> getUsers();
 
-    UserDTO getUserById(Integer id);
+    UserDTO getById(Integer id);
 }
